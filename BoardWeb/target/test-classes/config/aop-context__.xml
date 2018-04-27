@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd">
+
+<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+<!-- <beans:bean id="Log" class="com.yedam.app.common.LogAdvice"></beans:bean>
+	<beans:bean id="Log4j" class="com.yedam.app.common.Log4jAdivce"></beans:bean>
+	<beans:bean id="before" class="com.yedam.app.common.BeforeAdvice"></beans:bean>
+	<beans:bean id="after" class="com.yedam.app.common.AfterAdvice"></beans:bean>
+	<beans:bean id="around" class="com.yedam.app.common.AroundAdvice"></beans:bean>
+	
+	<aop:config>
+		<aop:pointcut expression="execution(* com.yedam.app..*Impl.*(..))" id="allPointcut"/>
+		<aop:pointcut expression="execution(* com.yedam.app..*Impl.get*(..))" id="getPointCut"/>
+				
+		<aop:aspect ref="Log4j">
+			<aop:before pointcut-ref="getPointCut" method="PrintLogging"/>
+		</aop:aspect>
+		<aop:aspect ref="before">
+			<aop:before pointcut-ref="allPointcut" method="beforeLog"/>
+		</aop:aspect>
+		<aop:aspect ref="after">
+			<aop:after-returning pointcut-ref="allPointcut" method="finallyLog" returning="returnObj"/>
+		</aop:aspect>
+		<aop:aspect ref="around">
+			<aop:around pointcut-ref="allPointcut" method="aroundLog"/>
+		</aop:aspect>
+	</aop:config> -->
+
+</beans>

@@ -1,0 +1,3 @@
+eclipse.preferences.version=1
+encoding//src/main/resources/message/messageSource_ko.txt=euc-kr
+encoding//src/main/webapp/WEB-INF/views/home.jsp=UTF-8

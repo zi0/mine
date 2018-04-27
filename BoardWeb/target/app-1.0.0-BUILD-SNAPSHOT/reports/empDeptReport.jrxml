@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="empDeptReport" language="groovy" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9f8eef8a-b4bc-48b6-8526-e91e53691000">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="fontStyle" fontName="맑은 고딕" pdfFontName="malgun.ttf" pdfEncoding="Identity-H"/>
+	<queryString language="SQL">
+		<![CDATA[select first_name "firstName",
+         last_name "lastName",
+         d.department_id "departmentID",
+         department_name "departmentName",
+         salary "salary",
+         hire_date "hireDate"
+from employees e, departments d
+where e.department_id = d.department_id
+order by first_name]]>
+	</queryString>
+	<field name="firstName" class="java.lang.String"/>
+	<field name="lastName" class="java.lang.String"/>
+	<field name="departmentID" class="java.math.BigDecimal"/>
+	<field name="departmentName" class="java.lang.String"/>
+	<field name="salary" class="java.math.BigDecimal"/>
+	<field name="hireDate" class="java.sql.Timestamp"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch">
+			<staticText>
+				<reportElement style="fontStyle" x="194" y="20" width="201" height="39" forecolor="#009999" uuid="d54097c5-a402-401f-9acb-8a80e547a0b5"/>
+				<textElement textAlignment="Center">
+					<font fontName="맑은 고딕" size="20"/>
+				</textElement>
+				<text><![CDATA[사원 목록]]></text>
+			</staticText>
+			<line>
+				<reportElement x="195" y="38" width="19" height="20" uuid="2fe07181-f56b-4e30-a11f-58930b6500e0"/>
+			</line>
+			<line>
+				<reportElement x="214" y="58" width="136" height="1" uuid="3e55a14d-e59d-459f-8b33-603162afa879"/>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="23" splitType="Stretch">
+			<staticText>
+				<reportElement x="5" y="0" width="92" height="20" forecolor="#666666" uuid="76c3f3a7-7297-47d4-858d-d947746205bd"/>
+				<textElement>
+					<font isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[firstName]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="92" y="0" width="92" height="20" forecolor="#666666" uuid="055b37f3-1278-4267-b01c-45e24f1118db"/>
+				<textElement>
+					<font fontName="맑은 고딕" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[lastName]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="244" y="0" width="124" height="20" forecolor="#666666" uuid="49ad839a-6d26-4897-8e0b-1514555ef91a"/>
+				<textElement>
+					<font fontName="맑은 고딕" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[departmentName]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="368" y="0" width="92" height="20" forecolor="#666666" uuid="4860fa44-7424-47da-8d4c-ab04b57c2a16"/>
+				<textElement>
+					<font fontName="맑은 고딕" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="457" y="0" width="92" height="20" forecolor="#666666" uuid="d292d15b-746a-4e87-a06c-88a5d0dcc37e"/>
+				<textElement>
+					<font fontName="맑은 고딕" isBold="true" isItalic="true"/>
+				</textElement>
+				<text><![CDATA[hireDate]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="24" splitType="Stretch">
+			<textField>
+				<reportElement x="5" y="0" width="92" height="20" uuid="984c8129-6fb4-4df4-957a-3a2a7cf91e40"/>
+				<textElement>
+					<font fontName="맑은 고딕"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{firstName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="92" y="0" width="92" height="20" uuid="e87a9d86-306d-4863-9b85-bc26c69500ad"/>
+				<textElement>
+					<font fontName="맑은 고딕"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{lastName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="244" y="0" width="124" height="20" uuid="d02e85fe-943d-4a0d-851d-567e5adb3164"/>
+				<textElement>
+					<font fontName="맑은 고딕"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{departmentName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="368" y="0" width="92" height="20" uuid="797229e6-95d5-404b-a295-95ed4bcc7ea3"/>
+				<textElement>
+					<font fontName="맑은 고딕"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{salary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="457" y="0" width="92" height="20" uuid="41ce22d9-beac-4b7a-9fdd-913bc742290e"/>
+				<textElement>
+					<font fontName="맑은 고딕"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{hireDate}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<textField>
+				<reportElement x="268" y="25" width="100" height="20" uuid="e19df274-448b-439f-b628-a2a001c81302"/>
+				<textFieldExpression><![CDATA[$V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</columnFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

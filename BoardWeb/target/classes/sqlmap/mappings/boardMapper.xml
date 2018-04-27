@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="board">
+	<resultMap type="board" id="boardResult">
+		<id property="seq" column="SEQ"/>
+		<result property="title" column="title"/>
+		<result property="writer" column="writer"/>
+		<result property="content" column="content"/>
+		<result property="regDate" column="regDate"/>
+		<result property="cnt" column="cnt"/>	
+		<result property="uploadFileName" column="upload_File_Name"/>	
+	</resultMap>
+	
+	<!-- resultMap = "boardResult" -->
+
+	<select id="getBoardList" resultType="board">
+		<![CDATA[
+		select a.* from ( select rownum rn, b.* from (
+		
+		SELECT SEQ
+			  ,TITLE
+			  ,WRITER
+			  ,CONTENT
+			  ,REGDATE
+			  ,CNT
+			  ,UPLOAD_FILE_NAME
+		FROM BOARD 
+		]]>
+		<where>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<if test="searchCondition == 'title' ">
+			and title like '%' || #{searchKeyword} || '%'
+			</if>
+			
+			<if test="searchCondition == 'content' ">
+			and content like '%' || #{searchKeyword} || '%'
+			</if>
+		</if>	
+		</where>
+		ORDER BY SEQ DESC
+		) b ) a where rn between #{first} and #{last}
+	</select>
+
+	<select id="getBoard" resultType="board" parameterType="board">
+		<![CDATA[
+			SELECT *
+			FROM BOARD 
+			WHERE SEQ=#{seq}
+		]]>
+		
+	</select>
+	<insert id="insertBoard" parameterType="board">
+	<selectKey keyProperty="seq" resultType="int" order="BEFORE"> 
+	<!-- sql구문을 keyProperty에 대입하는것 -->
+		select nvl(max(seq),0)+1 from board
+		</selectKey>
+			INSERT INTO BOARD(
+				SEQ,
+				TITLE,
+				WRITER,
+				CONTENT,
+				REGDATE
+			<if test="uploadFileName != null">
+				,UPLOAD_FILE_NAME
+			</if>
+			)
+			VALUES(
+				#{seq},
+				#{title},
+				#{writer},
+				#{content},
+				SYSDATE
+			<if test="uploadFileName != null">
+				,#{uploadFileName}
+			</if>
+				)
+	</insert>
+	<!-- <insert id="insertBoard" 
+			statementType="CALLABLE"
+			parameterType="board">
+		{ call BOARD_INS_PROC(#{title}
+						  	 ,#{writer}
+							 ,#{content}
+							 ,#{seq, mode=OUT, jdbcType=NUMERIC, javaType=java.lang.Integer}
+							 ,#{outMsg, mode=OUT, jdbcType=VARCHAR, javaType=string}
+						  )}
+	</insert> -->
+	<update id="updateBoard" parameterType="board">
+		UPDATE BOARD SET
+		TITLE=#{title}, 
+		CONTENT=#{content}, 
+		WRITER=#{writer} 
+		WHERE SEQ=#{seq}
+	</update>
+	
+	<delete id="deleteBoard" parameterType="board">
+		DELETE BOARD 
+		WHERE SEQ=#{seq}
+	</delete>
+	
+	<select id="count" resultType="int">
+		select count(*) from board
+	</select>
+	
+	<delete id="deleteBoardList" parameterType="list">
+		DELETE FROM BOARD 
+		WHERE SEQ IN
+		 <foreach item="item" index="index" collection="list"
+      		open="(" separator="," close=")">
+        #{item}
+		 </foreach> 
+	</delete>
+	
+	<select id="getCount" resultType="int" parameterType="board">
+		SELECT COUNT(*)
+		FROM BOARD
+		<where>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<if test="searchCondition == 'title' ">
+			and title like '%' || #{searchKeyword} || '%'
+			</if>
+			
+			<if test="searchCondition == 'content' ">
+			and content like '%' || #{searchKeyword} || '%'
+			</if>
+		</if>	
+		</where>
+	</select>
+	
+	<select id="getBoardListMap" resultType="com.yedam.app.common.LowerKeyMap">
+		SELECT *
+		FROM board
+		ORDER BY seq DESC
+	</select>
+
+</mapper> 

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="emp">
+	<resultMap type="emp" id="empResult">
+		<id property="employee_id" column="employee_id"/>
+		<result property="first_name" column="first_name"/>
+		<result property="last_name" column="last_name"/>
+		<result property="job_id" column="job_id"/>
+		<result property="salary" column="salary"/>
+	</resultMap>
+	
+	<select resultType="map" id="getEmployeeAll"> 
+		select first_name "firstName",
+         		last_name "lastName",
+		        d.department_id "departmentID",
+		        department_name "departmentName",
+		        salary "salary",
+		        hire_date "hireDate"
+		 from hr.employees e, hr.departments d
+		 where e.department_id = d.department_id
+		 order by first_name
+	
+	</select>
+	
+	
+	<select id="getEmpList" resultType="emp">
+	<![CDATA[
+		select a.* from ( select rownum rn, b.* from (
+		
+		
+		SELECT * 
+		FROM HR.EMPLOYEES 
+		]]>
+		<where>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<if test="searchCondition == 'first_name' ">
+			and first_name like '%' || #{searchKeyword} || '%'
+			</if>
+			
+			<if test="searchCondition == 'last_name' ">
+			and last_name like '%' || #{searchKeyword} || '%'
+			</if>
+		</if>	
+		</where>
+		ORDER BY EMPLOYEE_ID
+				) b ) a where rn between #{first} and #{last}
+	</select>
+
+	<select id="getEmp" resultType="emp" parameterType="emp">
+			SELECT *
+			FROM HR.EMPLOYEES
+			WHERE EMPLOYEE_ID=#{employee_id}
+	</select>
+	
+	<insert id="insertEmp" parameterType="emp">
+		INSERT INTO HR.EMPLOYEES(
+			EMPLOYEE_ID, 
+			FIRST_NAME, 
+			LAST_NAME, 
+			SALARY)
+		VALUES(#{employee_id},
+				#{first_name}, 
+				#{last_name},
+				#{salary}) 
+	</insert>
+
+	<update id="updateEmp" parameterType="emp">
+		UPDATE HR.EMPLOYEES SET
+		FIRST_NAME=#{first_name},
+		LAST_NAME=#{last_name},
+		SALARY=#{salary}
+		WHERE EMPLOYEE_ID=#{employee_id}
+	</update>
+	
+	<delete id="deleteEmp" parameterType="emp">
+		DELETE HR.EMPLOYEES 
+		WHERE EMPLOYEE_ID=#{employee_id}
+	</delete>
+	
+	<select id="getCount" resultType="int" parameterType="emp">
+		SELECT COUNT(*)
+		FROM HR.EMPLOYEES
+		<where>
+		<if test="searchKeyword != null and searchKeyword != ''">
+			<if test="searchCondition == 'first_name' ">
+			and first_name like '%' || #{searchKeyword} || '%'
+			</if>
+			
+			<if test="searchCondition == 'last_name' ">
+			and last_name like '%' || #{searchKeyword} || '%'
+			</if>
+		</if>	
+		</where>
+	</select>
+	
+	<select id="getDeptEmpStatistic" resultType="map">
+		select department_name "name", count(*) "cnt"
+		from hr.employees e, hr.departments d
+		where e.department_id = d.department_id
+		group by department_name
+	</select>
+</mapper>
